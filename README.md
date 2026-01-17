@@ -1,20 +1,10 @@
-# rearc-data-engineer-takehome
-Assessment 
-
 # Rearc Data Engineer Take Home Assignment
 
 ## Overview
 This repository contains my solution to the Rearc Data Engineer take-home challenge.
-The project demonstrates data ingestion, transformation, validation, and analytics
-using best practices in data engineering.
 
 ## Architecture
-High-level architecture:
-•⁠  ⁠Source data ingestion
-•⁠  ⁠Transformation and validation
-•⁠  ⁠Storage and analytics layer
 
-(Architecture diagram available in ⁠ /architecture ⁠ folder)
 ```mermaid
 flowchart LR
   subgraph Sources
@@ -55,10 +45,14 @@ flowchart LR
   API --> B
 ```
 
-## Tech Stack
-•⁠  ⁠Python
-•⁠  ⁠SQL
-•⁠  ⁠Cloud Storage
-•⁠  ⁠GitHub
 
-## Project Structure
+### How to read this architecture
+1. Two independent ingestion tasks pull data from external public sources
+2. Raw data is stored in Unity Catalog Volumes backed by ADLS Gen2
+3. Analytics runs only after both ingestions succeed
+4. Curated outputs are written as Delta tables in Unity Catalog
+5. Everything runs on Databricks Serverless compute
+
+This architecture mirrors the intent of the original AWS-based design, but uses Databricks-native primitives instead of Lambda, SQS, and S3 notifications.
+
+
