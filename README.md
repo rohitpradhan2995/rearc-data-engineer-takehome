@@ -15,7 +15,7 @@ High-level architecture:
 •⁠  ⁠Storage and analytics layer
 
 (Architecture diagram available in ⁠ /architecture ⁠ folder)
-
+```mermaid
 flowchart LR
   subgraph Sources
     BLS[BLS time-series files<br/>download.bls.gov/pub/time.series/pr/]
@@ -53,7 +53,7 @@ flowchart LR
 
   BLS --> A
   API --> B
-
+```
 
 ## Tech Stack
 •⁠  ⁠Python
