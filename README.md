@@ -22,11 +22,11 @@ flowchart LR
     API[Population API<br/>honolulu-api.datausa.io/tesseract]
   end
 
-  subgraph DBX[Azure Databricks (Serverless)]
+  subgraph DBX[Azure Databricks - Serverless]
     WF[Databricks Workflow<br/>Scheduled daily]
-    A[Task A: Ingest BLS (Part 1)]
-    B[Task B: Ingest Population (Part 2)]
-    C[Task C: Analytics (Part 3)]
+    A[Task A: Ingest BLS Part 1]
+    B[Task B: Ingest Population Part 2]
+    C[Task C: Analytics Part 3]
   end
 
   subgraph UC[Unity Catalog + ADLS Gen2]
