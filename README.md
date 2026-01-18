@@ -12,7 +12,8 @@ The overall design mirrors the intent of the original AWS-oriented quest while l
 
 ## Architecture
 
-```mermaid
+mermaid
+```
 fflowchart LR
   subgraph Sources
     BLS[BLS time-series files<br/>download.bls.gov/pub/time.series/pr/]
@@ -50,7 +51,6 @@ fflowchart LR
 
   BLS --> A
   API --> B
-
 ```
 
 
