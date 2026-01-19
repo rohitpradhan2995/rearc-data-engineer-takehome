@@ -183,12 +183,6 @@ Key computations:
 
 Results are stored as Delta tables in Unity Catalog.
 
-## Additional Analysis (Beyond Requirements)
-To demonstrate analytical depth beyond the assignment requirements, the following analyses were added:
-1. Population trend analysis and Year-over-year population growth to assess stability and volatility
-2. Series volatility analysis - Coefficient of variation per BLS series to identify stable vs volatile indicators
-3. Per-capita normalization - BLS values normalized by population to enable fair cross-year comparison
-
 ## How to Run
 This project runs entirely in Azure Databricks using serverless compute and Databricks Workflows.
 
