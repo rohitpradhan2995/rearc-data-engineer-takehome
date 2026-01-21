@@ -62,7 +62,8 @@ flowchart LR
 
 
 ## Why Databricks (and How It Maps to AWS)
-The original Rearc Quest is presented using AWS services (S3, Lambda, SQS, CloudWatch). For this submission, I intentionally chose Azure Databricks as the execution platform and re-implemented the solution using Databricks-native components.
+The original Rearc Quest is presented using AWS services (S3, Lambda, SQS, CloudWatch). 
+For this submission, I intentionally chose Azure Databricks as the execution platform and re-implemented the solution using Databricks-native components.
 This was a deliberate architectural decision rather than a limitation, and it preserves the intent and behavior of the original design while simplifying operations and reducing moving parts.
 
 ### Databricks vs AWS – Conceptual Mapping
@@ -100,8 +101,20 @@ Raw data (BLS files and API JSON) is stored in UC Volumes instead of unmanaged c
 This aligns with modern lakehouse best practices.
 
 ### 2. Why overwrite-in-place for the API dataset
+
 The population API output is written to a fixed path and overwritten on each run:
 /Volumes/rearc_quest/lakehouse/raw_datausa/population.json
+
+1. Latest-snapshot semantics:
+The population dataset represents a slowly changing reference dataset. Overwriting ensures downstream analytics always consume the most recent successful snapshot without managing multiple versions.
+
+2. Resilient fallback behavior:
+If the API call fails after retries, the pipeline automatically falls back to the previously cached population.json, allowing downstream jobs to continue without interruption.
+3. Operational simplicity:
+A stable path avoids the need for version resolution logic in downstream notebooks, keeping analytics code simple and deterministic.
+
+4. Explicit observability:
+Each run records whether the file was refreshed from the API or reused from cache (api_success vs fallback_cached) in the _meta run metadata, preserving auditability without duplicating data files.
 
 #### Alternatives considered:
 1. Versioned paths (ingest_date=YYYY-MM-DD/)
@@ -224,15 +237,15 @@ After a successful run, verify the following:
 Raw data (Unity Catalog Volumes)
 
 BLS data:
-/Volumes/rearc_quest/lakehouse/raw_bls/pr.data.0.Current
+1. /Volumes/rearc_quest/lakehouse/raw_bls/pr.data.0.Current
 
 Population API data:
-/Volumes/rearc_quest/lakehouse/raw_datausa/population.json
+1. /Volumes/rearc_quest/lakehouse/raw_datausa/population.json
 
 Curated Delta tables
-SELECT * FROM rearc_quest.lakehouse.population_stats_2013_2018;
-SELECT * FROM rearc_quest.lakehouse.bls_best_year_by_series;
-SELECT * FROM rearc_quest.lakehouse.report_prs30006032_q01;
+1. SELECT * FROM rearc_quest.lakehouse.population_stats_2013_2018;
+2. SELECT * FROM rearc_quest.lakehouse.bls_best_year_by_series;
+3. SELECT * FROM rearc_quest.lakehouse.report_prs30006032_q01;
 
 ## Failure Handling & Retries
 1. External API calls include retries and exponential backoff
