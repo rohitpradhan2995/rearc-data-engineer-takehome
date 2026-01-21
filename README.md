@@ -195,21 +195,6 @@ An Azure Databricks workspace with:
   1. download.bls.gov
   2. honolulu-api.datausa.io
 
-### One-time Setup
-
-Create catalog and schema (if not already present):
-CREATE CATALOG IF NOT EXISTS rearc_quest;
-CREATE SCHEMA IF NOT EXISTS rearc_quest.lakehouse;
-
-Create Unity Catalog volumes for raw data:
-CREATE VOLUME IF NOT EXISTS rearc_quest.lakehouse.raw_bls;
-CREATE VOLUME IF NOT EXISTS rearc_quest.lakehouse.raw_datausa;
-
-Import notebooks into the Databricks workspace:
-10_ingest_bls
-11_ingest_population
-20_analytics
-
 ### Running the Pipeline via Databricks Workflow
 #### Navigate to Workflows in the Databricks UI
 
